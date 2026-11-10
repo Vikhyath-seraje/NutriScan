@@ -52,10 +52,20 @@ app.use(
 );
 
 // ── 3. Body parsers & Static Files ───────────────────────
-// Parse incoming JSON bodies (e.g., login, registration)
-app.use(express.json({ limit: '10mb' }));
-// Parse URL-encoded bodies (HTML form submissions)
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// On Vercel serverless, req.body is often pre-parsed by the runtime.
+// Avoid re-reading a consumed stream:
+app.use((req, res, next) => {
+  if (req.body && typeof req.body === 'object' && Object.keys(req.body).length > 0) {
+    return next();
+  }
+  express.json({ limit: '10mb' })(req, res, next);
+});
+app.use((req, res, next) => {
+  if (req.body && typeof req.body === 'object' && Object.keys(req.body).length > 0) {
+    return next();
+  }
+  express.urlencoded({ extended: true, limit: '10mb' })(req, res, next);
+});
 
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
