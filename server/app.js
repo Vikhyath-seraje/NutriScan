@@ -26,6 +26,20 @@ const app = express();
 // Trust Vercel / proxy headers for rate limiting and IP detection
 app.set('trust proxy', 1);
 
+// Debug inspector to see exact request paths in Vercel
+app.use((req, res, next) => {
+  if (req.url.includes('debug-route')) {
+    return res.status(200).json({
+      url: req.url,
+      originalUrl: req.originalUrl,
+      path: req.path,
+      method: req.method,
+      query: req.query,
+    });
+  }
+  next();
+});
+
 // ── 1. Security headers ──────────────────────────────────
 // Helmet sets sensible HTTP security headers automatically
 // (Content-Security-Policy, X-Frame-Options, etc.)
@@ -115,12 +129,21 @@ app.get('/api/db-check', async (req, res) => {
   }
 });
 
-// ── 6. Routes ────────────────────────────────────────────
+// ── 6. Routes (Support both /api/path and /path in Vercel) ──
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/auth', require('./routes/authRoutes'));
+
 app.use('/api/profile', require('./routes/profileRoutes'));
+app.use('/profile', require('./routes/profileRoutes'));
+
 app.use('/api/food', require('./routes/foodRoutes'));
+app.use('/food', require('./routes/foodRoutes'));
+
 app.use('/api/meals', require('./routes/mealRoutes'));
+app.use('/meals', require('./routes/mealRoutes'));
+
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
+app.use('/dashboard', require('./routes/dashboardRoutes'));
 // app.use('/api/meals',     require('./routes/mealRoutes'));
 // app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 
