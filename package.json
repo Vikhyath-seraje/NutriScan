@@ -4,7 +4,8 @@
   "description": "NutriScan — AI-powered food calorie & nutrition tracker",
   "main": "api/index.js",
   "scripts": {
-    "build": "cd client && npm install && npm run build",
+    "vercel-build": "cd client && npm install --include=dev && npx --yes vite build",
+    "build": "cd client && npm install --include=dev && npx --yes vite build",
     "seed": "node server/seed.js",
     "start": "node server/server.js"
   },
