@@ -1,0 +1,153 @@
+[
+  {
+    "externalId": "in_idli_01",
+    "name": "Idli (Steamed Rice and Lentil Cake)",
+    "category": "South Indian Breakfast",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 140,
+      "protein": 4.5,
+      "carbs": 28.0,
+      "fat": 0.4,
+      "fiber": 1.8
+    },
+    "servingSizeGrams": 50,
+    "servingDescription": "1 piece (approx. 50g)"
+  },
+  {
+    "externalId": "in_dosa_02",
+    "name": "Plain Dosa",
+    "category": "South Indian Breakfast",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 210,
+      "protein": 4.2,
+      "carbs": 33.0,
+      "fat": 6.8,
+      "fiber": 1.6
+    },
+    "servingSizeGrams": 80,
+    "servingDescription": "1 medium dosa (approx. 80g)"
+  },
+  {
+    "externalId": "in_sambar_03",
+    "name": "Sambar (Vegetable Lentil Stew)",
+    "category": "Curries & Stews",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 65,
+      "protein": 2.8,
+      "carbs": 9.5,
+      "fat": 1.8,
+      "fiber": 2.2
+    },
+    "servingSizeGrams": 150,
+    "servingDescription": "1 small bowl (approx. 150g)"
+  },
+  {
+    "externalId": "in_coconutchutney_04",
+    "name": "Coconut Chutney",
+    "category": "Condiments",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 195,
+      "protein": 2.2,
+      "carbs": 6.8,
+      "fat": 18.0,
+      "fiber": 3.4
+    },
+    "servingSizeGrams": 30,
+    "servingDescription": "2 tablespoons (approx. 30g)"
+  },
+  {
+    "externalId": "in_roti_05",
+    "name": "Roti / Chapati (Whole Wheat Flatbread)",
+    "category": "Breads",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 290,
+      "protein": 9.0,
+      "carbs": 55.0,
+      "fat": 3.5,
+      "fiber": 9.5
+    },
+    "servingSizeGrams": 35,
+    "servingDescription": "1 medium roti without oil (approx. 35g)"
+  },
+  {
+    "externalId": "in_daltadka_06",
+    "name": "Dal Tadka (Yellow Lentil Curry)",
+    "category": "Curries & Stews",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 115,
+      "protein": 5.8,
+      "carbs": 14.5,
+      "fat": 4.0,
+      "fiber": 3.2
+    },
+    "servingSizeGrams": 150,
+    "servingDescription": "1 standard katori/bowl (approx. 150g)"
+  },
+  {
+    "externalId": "in_paneerbuttermasala_07",
+    "name": "Paneer Butter Masala",
+    "category": "Curries & Gravies",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 235,
+      "protein": 8.5,
+      "carbs": 9.0,
+      "fat": 18.5,
+      "fiber": 1.8
+    },
+    "servingSizeGrams": 150,
+    "servingDescription": "1 serving bowl (approx. 150g)"
+  },
+  {
+    "externalId": "in_poha_08",
+    "name": "Poha (Flattened Rice with Spices)",
+    "category": "Breakfast",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 180,
+      "protein": 3.2,
+      "carbs": 32.0,
+      "fat": 4.5,
+      "fiber": 2.0
+    },
+    "servingSizeGrams": 150,
+    "servingDescription": "1 medium plate (approx. 150g)"
+  },
+  {
+    "externalId": "in_steamedrice_09",
+    "name": "Steamed White Rice (Cooked)",
+    "category": "Grains & Rice",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 130,
+      "protein": 2.7,
+      "carbs": 28.2,
+      "fat": 0.3,
+      "fiber": 0.4
+    },
+    "servingSizeGrams": 150,
+    "servingDescription": "1 medium bowl (approx. 150g)"
+  },
+  {
+    "externalId": "in_masalachai_10",
+    "name": "Masala Chai with Milk and Sugar",
+    "category": "Beverages",
+    "source": "indian_db",
+    "nutrientsPer100g": {
+      "energy": 68,
+      "protein": 2.1,
+      "carbs": 8.5,
+      "fat": 2.8,
+      "fiber": 0.1
+    },
+    "servingSizeGrams": 150,
+    "servingDescription": "1 cup (approx. 150ml)"
+  }
+]
+
