@@ -86,8 +86,6 @@ if (!isServerless) {
 }
 
 // ── 5. Health check ──────────────────────────────────────
-// A simple endpoint to verify the server is running.
-// Useful for deployment health checks.
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     success: true,
@@ -95,6 +93,26 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
   });
+});
+
+// Diagnostic DB check
+app.get('/api/db-check', async (req, res) => {
+  try {
+    const mongoose = require('mongoose');
+    const User = require('./models/User');
+    const count = await User.countDocuments();
+    return res.status(200).json({
+      success: true,
+      dbStatus: mongoose.connection.readyState, // 1 = connected
+      userCount: count,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: err.message,
+      stack: err.stack,
+    });
+  }
 });
 
 // ── 6. Routes ────────────────────────────────────────────
