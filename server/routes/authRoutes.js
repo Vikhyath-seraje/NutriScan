@@ -26,8 +26,14 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+const isServerless = process.env.VERCEL === '1' || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+
+const loginMiddleware = isServerless
+  ? [loginRules, validate]
+  : [loginLimiter, loginRules, validate];
+
 router.post('/register', registerRules, validate, register);
-router.post('/login', loginLimiter, loginRules, validate, login);
+router.post('/login', loginMiddleware, login);
 router.get('/me', protect, getMe);
 
 module.exports = router;

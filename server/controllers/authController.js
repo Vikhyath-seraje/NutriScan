@@ -12,7 +12,10 @@ const { sendSuccess, sendError } = require('../utils/responseHelpers');
 
 // Helper to generate signed JWT token
 const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+  const secret =
+    process.env.JWT_SECRET ||
+    '52829ce54c92adf7f7862866d4b0fde1fc4cf2e9c02c3bb9a21b422a4ce423bfe1359b87d85b7c9d473012073ba8e1d816c3cf161c4cb0a1ca65113c214353a0';
+  return jwt.sign({ id: userId }, secret, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 };

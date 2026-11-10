@@ -61,17 +61,19 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ── 4. Rate limiting ─────────────────────────────────────
-// Global limit: max 100 requests per 15 minutes per IP.
-// Specific endpoints like /auth/login get stricter limits
-// (defined in their route files).
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
-  standardHeaders: true,  // Return rate limit info in `RateLimit-*` headers
-  legacyHeaders: false,
-  message: { success: false, error: 'Too many requests, please try again later.' },
-});
-app.use(globalLimiter);
+// Skip rate limiter in serverless environments to avoid IP proxy errors
+const isServerless = process.env.VERCEL === '1' || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+
+if (!isServerless) {
+  const globalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, error: 'Too many requests, please try again later.' },
+  });
+  app.use(globalLimiter);
+}
 
 // ── 5. Health check ──────────────────────────────────────
 // A simple endpoint to verify the server is running.
