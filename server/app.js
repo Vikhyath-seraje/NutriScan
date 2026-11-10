@@ -99,15 +99,9 @@ app.use((req, res) => {
 });
 
 // ── 8. Global error handler ──────────────────────────────
-// Catches any error thrown with next(err) in middleware or routes.
-// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err.message);
-
-  // Don't expose internal stack traces in production
-  const message =
-    process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message;
-
+  console.error('Unhandled error:', err);
+  const message = err.message || 'Internal server error';
   sendError(res, message, err.status || 500);
 });
 
