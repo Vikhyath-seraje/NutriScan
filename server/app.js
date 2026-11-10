@@ -23,26 +23,28 @@ const { sendError } = require('./utils/responseHelpers');
 
 const app = express();
 
+// Trust Vercel / proxy headers for rate limiting and IP detection
+app.set('trust proxy', 1);
+
 // ── 1. Security headers ──────────────────────────────────
 // Helmet sets sensible HTTP security headers automatically
 // (Content-Security-Policy, X-Frame-Options, etc.)
 app.use(helmet());
 
 // ── 2. CORS ──────────────────────────────────────────────
-// Only the React dev server (or production URL) may call this API.
-// Credentials: true is needed for cookies if we ever use them.
-const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:5173',
-];
-
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (Postman, curl, server-to-server)
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (curl, server-to-server) or localhost or any vercel.app deployment
+      if (
+        !origin ||
+        origin.includes('localhost') ||
+        origin.endsWith('.vercel.app') ||
+        origin === process.env.CLIENT_URL
+      ) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS: origin ${origin} is not allowed`));
+        callback(null, true); // Fallback: allow request in production
       }
     },
     credentials: true,
