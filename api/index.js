@@ -1,52 +1,38 @@
 // api/index.js
 // ---------------------------------------------------------
 // Vercel Serverless Function entry point for NutriScan backend.
+// Exports Express app directly for Vercel Serverless Runtime.
 // ---------------------------------------------------------
 
 const mongoose = require('mongoose');
 const app = require('../server/app');
 
-// Ensure MongoDB URI is picked up either from Vercel env or local
 const MONGO_URI =
   process.env.MONGO_URI ||
   'mongodb+srv://vikhyathseraje_db_user:NutriScan12345@cluster0.iiqrshi.mongodb.net/nutriscan?retryWrites=true&w=majority';
 
-if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET =
-    '52829ce54c92adf7f7862866d4b0fde1fc4cf2e9c02c3bb9a21b422a4ce423bfe1359b87d85b7c9d473012073ba8e1d816c3cf161c4cb0a1ca65113c214353a0';
-}
+let isConnected = false;
 
-let cachedPromise = null;
-
-async function connectToDatabase() {
-  if (mongoose.connection.readyState === 1) {
-    return;
+// Middleware to ensure MongoDB is connected before handling any API request
+app.use(async (req, res, next) => {
+  if (isConnected && mongoose.connection.readyState === 1) {
+    return next();
   }
 
-  if (!cachedPromise) {
-    cachedPromise = mongoose.connect(MONGO_URI, {
-      serverSelectionTimeoutMS: 8000,
+  try {
+    const db = await mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 10000,
     });
-  }
-
-  try {
-    await cachedPromise;
-    console.log('✅ Connected to MongoDB Atlas in Vercel');
+    isConnected = db.connections[0].readyState === 1;
+    console.log('✅ MongoDB connected in Vercel');
+    next();
   } catch (err) {
-    cachedPromise = null;
     console.error('❌ MongoDB Connection Error in Vercel:', err.message);
-    throw err;
-  }
-}
-
-module.exports = async (req, res) => {
-  try {
-    await connectToDatabase();
-    return app(req, res);
-  } catch (err) {
     return res.status(500).json({
       success: false,
-      error: `Database connection failed: ${err.message}`,
+      error: `Database connection error: ${err.message}`,
     });
   }
-};
+});
+
+module.exports = app;
