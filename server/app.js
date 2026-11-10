@@ -104,9 +104,13 @@ app.use((req, res) => {
 
 // ── 8. Global error handler ──────────────────────────────
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  const message = err.message || 'Internal server error';
-  sendError(res, message, err.status || 500);
+  console.error('Unhandled error in Express:', err);
+  const message = (err && (err.message || err.toString())) || 'Internal server error';
+  return res.status(err.status || 500).json({
+    success: false,
+    error: message,
+    stack: err ? err.stack : null,
+  });
 });
 
 module.exports = app;
